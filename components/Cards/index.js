@@ -23,7 +23,7 @@ const createCard = ({headline, authorPhoto, authorName}) => {
     const eCard = document.createElement('div');
     eCard.classList.add('card');
 
-    const headline = document.createElement('div');
+    const hl = document.createElement('div');
     hl.classList.add('headLine');
     hl.textContent = headline;
     eCard.appendChild(hl);
@@ -34,15 +34,15 @@ const createCard = ({headline, authorPhoto, authorName}) => {
 
     const imgContainer = document.createElement('div');
     imgContainer.classList.add('img-container');
-    eCard.appendChild(imgContainer);
+    author.appendChild(imgContainer);
 
     const auImage = document.createElement('img');
     auImage.src = authorPhoto;
-    eCard.appendChild(imgContainer);
+    imgContainer.appendChild(auImage);
 
     const auName = document.createElement('span');
     auName.textContent = `By ${authorName}`;
-    eCard.appendChild(auName);
+    author.appendChild(auName);
 
     return eCard;
 }
@@ -50,6 +50,11 @@ const createCard = ({headline, authorPhoto, authorName}) => {
 //axios
 axios.get('https://lambda-times-backend.herokuapp.com/articles')
     .then((response) => {
-        console.log(response.data);
+        //get keys from articles and wrap it in for loop
+        for(const topic of Object.keys(response.data.articles)){
+            (response.data.articles[topic]).forEach(item => {
+                document.querySelector('.cards-container').appendChild(createCard(item));
+            });
+        }
     })
     .catch((error) => {console.error(error)});
