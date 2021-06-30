@@ -50,8 +50,7 @@ const createCard = ({headline, authorPhoto, authorName}) => {
 //axios
 axios.get('https://lambda-times-backend.herokuapp.com/articles')
     .then((response) => {
-        //get keys from articles and wrap it in for loop
-        for(const topic of Object.keys(response.data.articles)){
+        for(topic in response.data.articles){
             (response.data.articles[topic]).forEach(item => {
                 document.querySelector('.cards-container').appendChild(createCard(item));
             });
